@@ -1,6 +1,8 @@
 import { renderContentBody } from "./component/content-body";
 import { renderNavBar } from "./component/navbar";
+import { initGSAP } from "./utils/gsap-plugin";
 import './styles/styles.css'
+
 
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -17,6 +19,10 @@ window.addEventListener('DOMContentLoaded', () => {
             }, 100);
         }
     }
+
+    initGSAP();
 });
+
+
 
 document.querySelector('#app')?.append(renderNavBar(), renderContentBody());

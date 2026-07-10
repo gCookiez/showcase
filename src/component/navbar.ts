@@ -1,5 +1,6 @@
 import type { navItem } from "../types/types";
-import { aboutTemplate, canBringContent, contactSection, experienceSection, expTemplate, projectsSection} from "./custom-content";
+import { aboutTemplate, canBringContent, contactSection, experienceSection, expTemplate, projectsSection } from "./custom-content";
+import { gsapGlobals } from "../utils/gsap-plugin";
 
 
 export const navList: navItem[] = [
@@ -30,21 +31,31 @@ export const navList: navItem[] = [
     },
 ]
 
+export function scroller(event: PointerEvent, item: HTMLElement): void {
+    event.preventDefault();
+    
+    const target = item.getAttribute('href');
+    history.pushState(null, '', target);
+    console.log(target);
+    if (null !== target) {
+
+        gsapGlobals['smoother'].scrollTo(target,
+            {
+                offsetY: 50,
+                ease: "power2.out"
+            }
+        )
+    }
+    return;
+}
+
 export function renderNavItem(item: navItem): HTMLElement {
     const buttonContainer = document.createElement('div')
     const buttonText = document.createElement('h4');
     buttonContainer.classList.add('nav-button');
     buttonContainer.setAttribute('href', `#${item.href}`);
-    buttonContainer.addEventListener('click', () => {
-        const targetElement = document.getElementById(item.href);
-        history.pushState(null, '', `#${item.href}`);
-
-        targetElement?.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-        });
-
-
+    buttonContainer.addEventListener('click', function (e) {
+        scroller(e, this);
     })
     buttonText.innerHTML = item.display;
 

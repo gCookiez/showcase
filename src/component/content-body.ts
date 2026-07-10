@@ -4,7 +4,10 @@ const renderItems = [...appendHeroContent()];
 
 export function renderContentBody() : HTMLElement {
     const bodyContent = document.createElement('div');
+    const bodyScrollWrapper = document.createElement('div');
     bodyContent.setAttribute('id', 'main-body');
-    bodyContent.append(...renderItems || null);   
-    return bodyContent;
+    bodyScrollWrapper.setAttribute('id', 'main-scroll-wrapper');
+    bodyContent.append(...renderItems || null);  
+    bodyScrollWrapper.append(bodyContent) 
+    return bodyScrollWrapper;
 }

@@ -15,7 +15,7 @@
 
 html {
     scroll-behavior: smooth;
-    scroll-snap-type: y mandatory;
+    scroll-snap-type: y proximity;
 }
 
 * {
@@ -227,7 +227,7 @@ html {
     margin-top: 10px;
     width: 2px;
     height: 80px;
-    background: linear-gradient(to bottom, white, #ffffff00 75%);
+    /* background: linear-gradient(to bottom, white, #ffffff00 75%); */
 }
 
 .skills-buttons {
