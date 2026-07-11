@@ -1,7 +1,6 @@
 import type { navItem } from "../types/types";
 import { aboutTemplate, canBringContent, contactSection, experienceSection, expTemplate, projectsSection } from "./custom-content";
-import { getSection, goToSection, gsapGlobals } from "../utils/gsap-plugin";
-
+import {gsapGlobals, onLoadShiftingEvents } from "../utils/gsap-plugin";
 
 export const navList: navItem[] = [
     {
@@ -40,12 +39,10 @@ export function scroller(event: PointerEvent, item: HTMLElement): void {
     if (null !== target) {
 
         if (gsapGlobals['smoother']) {
-
-            const num : number = getSection(target);
-            goToSection(num, true);
+            onLoadShiftingEvents(target)
             return;
         }
-         // fallback
+         //
         document.querySelector(target)!.scrollIntoView({
             behavior: 'smooth',
             block: 'start'

@@ -1,12 +1,14 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
+import { Observer } from "gsap/Observer";
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 export const gsapGlobals: any = {}
 
 let skipScroll = false;
 let destination: number | boolean = false;
+let currentView: null | HTMLElement = null;
 
 export function initGSAP(): void {
     scrollSnapper();
@@ -52,7 +54,8 @@ export function initGSAP(): void {
 
 export function goToSection(i: number, skip?: boolean): void {
     if (gsapGlobals['smoother'] && gsapGlobals['sections']) {
-
+        if (gsapGlobals['sections'].length <= i || i < 0) return
+        
         skip ? (() => {
             skipScroll = true;
             destination = i;
@@ -62,19 +65,28 @@ export function goToSection(i: number, skip?: boolean): void {
             smooth: true
         });
 
-
-
     }
 }
 
-export function getSection(element: string): number {
+export function onLoadShiftingEvents(target: string): void {
+    const num: number = getSectionByID(target);
+    if (num !== -1)
+        goToSection(num, true);
+}
+
+export function getSectionByID(element: string): number {
     const item = gsapGlobals['sections'].filter((e: any) => e.parentElement.getAttribute('id') === element.replace('#', ''));
-    const getEntry = gsapGlobals['sections'].indexOf(item[0])
+    const getEntry = getSectionByEntry(item[0])
     return getEntry;
 }
 
+export function getSectionByEntry(element: HTMLElement): number {
+    const getEntry = gsapGlobals['sections'].indexOf(element);
+    return getEntry
+}
+
 export function scrollCheck(i: number, dir: string): void {
-    dir === 'down' ? i = i + 1 : false; 
+    dir === 'down' ? i = i + 1 : false;
 
     if (destination !== i && skipScroll) return;
     goToSection(i);
@@ -84,7 +96,24 @@ export function scrollCheck(i: number, dir: string): void {
     })() : false;
 }
 
+const entriesObserver = new IntersectionObserver((entries: any): void => {
+    entries.forEach((entry: any) => {
+        if (entry.isIntersecting) {
+            currentView = entry.target;
+            console.log(currentView);
+        }
+    })
+
+    return;
+}, {
+    root: null,
+    threshold: 0.1
+}
+)
+
 export function scrollSnapper(): void {
+
+
     gsapGlobals['sections'] = gsap.utils.toArray('.center-content');
 
     gsapGlobals['smoother'] = ScrollSmoother.create({
@@ -110,8 +139,25 @@ export function scrollSnapper(): void {
             }
         })
 
+        entriesObserver.observe(i);
 
     })
+
+    window.addEventListener('keydown', (e) => {
+        switch (e.key) {
+            case 'ArrowUp':
+                goToSection(getSectionByEntry(currentView!) - 1);
+                break;
+            case 'ArrowDown':
+                goToSection(getSectionByEntry(currentView!) + 1);
+                break;
+            default:
+                return;
+        }
+        e.preventDefault();
+    })
+
+
 
 
     return;
