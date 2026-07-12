@@ -1,7 +1,6 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
-import { Observer } from "gsap/Observer";
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 export const gsapGlobals: any = {}
@@ -55,7 +54,7 @@ export function initGSAP(): void {
 export function goToSection(i: number, skip?: boolean): void {
     if (gsapGlobals['smoother'] && gsapGlobals['sections']) {
         if (gsapGlobals['sections'].length <= i || i < 0) return
-        
+
         skip ? (() => {
             skipScroll = true;
             destination = i;

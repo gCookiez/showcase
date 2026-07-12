@@ -1,7 +1,6 @@
 import { renderContentBody } from "./component/content-body";
 import { renderNavBar } from "./component/navbar";
 import { gsapGlobals, initGSAP, onLoadShiftingEvents } from "./utils/gsap-plugin";
-import './styles/styles.css'
 
 
 window.addEventListener('DOMContentLoaded', () => {

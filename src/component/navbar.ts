@@ -1,32 +1,57 @@
 import type { navItem } from "../types/types";
-import { aboutTemplate, canBringContent, contactSection, experienceSection, expTemplate, projectsSection } from "./custom-content";
-import {gsapGlobals, onLoadShiftingEvents } from "../utils/gsap-plugin";
+import { gsapGlobals, onLoadShiftingEvents } from "../utils/gsap-plugin";
+
+export const HTMLContent: HTMLElement = document.querySelector('#content')!;
 
 export const navList: navItem[] = [
     {
         name: 'about',
         href: 'about',
         display: 'About',
-        content: [aboutTemplate(), expTemplate(), canBringContent()],
+        content: ((): (HTMLElement[] | string | DocumentFragment | HTMLElement)[] | string => {
+
+            const main = HTMLContent.querySelector('section.about') as HTMLElement;
+            const scrollForMore = HTMLContent.querySelector('section.scroll-for-more') as HTMLElement;
+            const aboutDesc = HTMLContent.querySelector('section.about-desc') as HTMLElement;
+            const canBringContent = HTMLContent.querySelector('section.can-bring-content') as HTMLElement;
+            const expGrid = HTMLContent.querySelector('section.experience-grid') as HTMLElement;
+
+            return [[main, scrollForMore], [aboutDesc], [canBringContent, expGrid]]
+        })(),
         height: '300vh'
     },
     {
         name: 'exp',
         href: 'experience',
         display: 'Experience',
-        content: [experienceSection()]
+        content: ((): (HTMLElement[] | string | DocumentFragment | HTMLElement)[] | string => {
+
+            const main = HTMLContent.querySelector('section.full-experience') as HTMLElement;
+
+            return [[main]]
+        })(),
     },
     {
         name: 'proj',
         href: 'projects',
         display: 'Projects',
-        content: [projectsSection()]
+        content: ((): (HTMLElement[] | string | DocumentFragment | HTMLElement)[] | string => {
+
+            const main = HTMLContent.querySelector('section.projects-section') as HTMLElement;
+
+            return [[main]]
+        })()
     },
     {
         name: 'contact',
         href: 'contact',
         display: 'Contact',
-        content: [contactSection()]
+        content: ((): (HTMLElement[] | string | DocumentFragment | HTMLElement)[] | string => {
+
+            const main = HTMLContent.querySelector('section.contact-section') as HTMLElement;
+
+            return [[main]]
+        })()
     },
 ]
 
@@ -42,7 +67,7 @@ export function scroller(event: PointerEvent, item: HTMLElement): void {
             onLoadShiftingEvents(target)
             return;
         }
-         //
+        //
         document.querySelector(target)!.scrollIntoView({
             behavior: 'smooth',
             block: 'start'

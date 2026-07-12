@@ -1,7 +1,7 @@
 import type { navItem } from "../types/types";
-import { navList } from "./navbar";
-
-
+import { isArrayOfHTML } from "../utils/array-checker";
+import { divTemplate } from "../utils/custom-content";
+import { HTMLContent, navList } from "./navbar";
 
 export function renderHeroContent(body: navItem) : HTMLElement {
     const heroContainer = document.createElement("div");
@@ -13,8 +13,19 @@ export function renderHeroContent(body: navItem) : HTMLElement {
         heroContainer.append(document.createRange().createContextualFragment(body.content));
     }
     else{
-        const arrayBody = Array.from(body.content as HTMLElement[])
-        heroContainer.append(...arrayBody);
+        const temp : any[] = [];
+        (body.content as any[]).forEach(element => {
+            console.log(isArrayOfHTML(element));
+            if(isArrayOfHTML(element)){
+                temp.push(divTemplate(element, undefined, 'center-content'))
+            }
+            else {
+                temp.push(element as HTMLElement);
+            }
+        });
+        
+        // const arrayBody = Array.from(body.content as HTMLElement[])
+        heroContainer.append(...temp);
     }
     
     return heroContainer
@@ -26,6 +37,8 @@ export function appendHeroContent() : HTMLElement[] {
     for (var i of navList) {
         bodyItems.push(renderHeroContent(i));
     }
+
+    HTMLContent.remove();
 
     return bodyItems;
 }   
