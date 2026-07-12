@@ -1,6 +1,6 @@
 import { renderContentBody } from "./component/content-body";
 import { renderNavBar } from "./component/navbar";
-import { gsapGlobals, initGSAP, onLoadShiftingEvents } from "./utils/gsap-plugin";
+import { deactivateSkipScroll, gsapGlobals, initGSAP, onLoadShiftingEvents } from "./utils/gsap-plugin";
 
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -14,6 +14,10 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
     }, 500)
+
+    setTimeout(() => {
+        deactivateSkipScroll();
+    }, 1000)
 
 
 });

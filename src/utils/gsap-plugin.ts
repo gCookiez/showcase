@@ -67,6 +67,11 @@ export function goToSection(i: number, skip?: boolean): void {
     }
 }
 
+export function deactivateSkipScroll() : void {
+    skipScroll = false;
+    return;
+}
+
 export function onLoadShiftingEvents(target: string): void {
     const num: number = getSectionByID(target);
     if (num !== -1)
@@ -90,7 +95,7 @@ export function scrollCheck(i: number, dir: string): void {
     if (destination !== i && skipScroll) return;
     goToSection(i);
     skipScroll && destination === i ? (() => {
-        skipScroll = false;
+        deactivateSkipScroll()
         destination = false;
     })() : false;
 }
@@ -99,7 +104,6 @@ const entriesObserver = new IntersectionObserver((entries: any): void => {
     entries.forEach((entry: any) => {
         if (entry.isIntersecting) {
             currentView = entry.target;
-            console.log(currentView);
         }
     })
 
@@ -131,6 +135,7 @@ export function scrollSnapper(): void {
             start: "top+=50px top",
             end: "bottom-=50px top",
             onEnter: () => {
+                console.log(skipScroll)
                 scrollCheck(panel, "down");
             },
             onEnterBack: () => {

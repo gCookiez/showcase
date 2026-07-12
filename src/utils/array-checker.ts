@@ -17,3 +17,9 @@ export function isArrayOfHTML(value: unknown) : value is HTMLElement[] {
         value.every(element => element instanceof HTMLElement)
 }
 
+export function isArrayOfString(value: unknown) : value is string[] {
+
+    return Array.isArray(value) && 
+        value.every(element => typeof element == "string")
+}
+

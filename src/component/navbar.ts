@@ -1,14 +1,14 @@
-import type { navItem } from "../types/types";
+import type { mixedMedia, navItem } from "../types/types";
 import { gsapGlobals, onLoadShiftingEvents } from "../utils/gsap-plugin";
 
 export const HTMLContent: HTMLElement = document.querySelector('#content')!;
 
-export const navList: navItem[] = [
+const premod: navItem[] = [
     {
         name: 'about',
         href: 'about',
         display: 'About',
-        content: ((): (HTMLElement[] | string | DocumentFragment | HTMLElement)[] | string => {
+        content: ((): mixedMedia => {
 
             const main = HTMLContent.querySelector('section.about') as HTMLElement;
             const scrollForMore = HTMLContent.querySelector('section.scroll-for-more') as HTMLElement;
@@ -17,14 +17,13 @@ export const navList: navItem[] = [
             const expGrid = HTMLContent.querySelector('section.experience-grid') as HTMLElement;
 
             return [[main, scrollForMore], [aboutDesc], [canBringContent, expGrid]]
-        })(),
-        height: '300vh'
+        })()
     },
     {
         name: 'exp',
         href: 'experience',
         display: 'Experience',
-        content: ((): (HTMLElement[] | string | DocumentFragment | HTMLElement)[] | string => {
+        content: ((): mixedMedia => {
 
             const main = HTMLContent.querySelector('section.full-experience') as HTMLElement;
 
@@ -35,7 +34,7 @@ export const navList: navItem[] = [
         name: 'proj',
         href: 'projects',
         display: 'Projects',
-        content: ((): (HTMLElement[] | string | DocumentFragment | HTMLElement)[] | string => {
+        content: ((): mixedMedia => {
 
             const main = HTMLContent.querySelector('section.projects-section') as HTMLElement;
 
@@ -46,7 +45,7 @@ export const navList: navItem[] = [
         name: 'contact',
         href: 'contact',
         display: 'Contact',
-        content: ((): (HTMLElement[] | string | DocumentFragment | HTMLElement)[] | string => {
+        content: ((): mixedMedia => {
 
             const main = HTMLContent.querySelector('section.contact-section') as HTMLElement;
 
@@ -54,6 +53,17 @@ export const navList: navItem[] = [
         })()
     },
 ]
+
+
+// adds auto height. works only if children are all .center-content
+export const navList : navItem[] = premod.map((val: navItem) => {
+    if (typeof val.content === 'object' && Object.hasOwn(val.content, 'length')) {
+        val.height = String(parseInt(val.content.length as any) * 100 + 'vh') 
+    }
+    return val
+})
+
+console.log(navList);
 
 export function scroller(event: PointerEvent, item: HTMLElement): void {
     event.preventDefault();
