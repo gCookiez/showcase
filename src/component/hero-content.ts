@@ -1,4 +1,4 @@
-import type { navItem } from "../types/types";
+import { type navItem } from "../types/types";
 import { isArrayOfHTML, isArrayOfString } from "../utils/array-checker";
 import { divTemplate } from "../utils/custom-content";
 import { HTMLContent, navList } from "./navbar";
@@ -21,7 +21,7 @@ export function renderHeroContent(body: navItem): HTMLElement {
         (body.content as any[]).forEach(element => {
             console.log(isArrayOfHTML(element));
             if (isArrayOfHTML(element)) {
-                temp.push(divTemplate(element, undefined, 'center-content'))
+                temp.push(divTemplate(element, undefined, undefined == body.extend && !body.extend ? 'center-content' : ['center-content', 'extended'] ))
             }
             else if(element instanceof HTMLElement || element instanceof DocumentFragment) {
                 temp.push(element as HTMLElement);

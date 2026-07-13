@@ -67,7 +67,7 @@ export function goToSection(i: number, skip?: boolean): void {
     }
 }
 
-export function deactivateSkipScroll() : void {
+export function deactivateSkipScroll(): void {
     skipScroll = false;
     return;
 }
@@ -113,6 +113,38 @@ const entriesObserver = new IntersectionObserver((entries: any): void => {
     threshold: 0.1
 }
 )
+
+export function carouselLogic(el: HTMLElement): any {
+    // const timeline = gsap.timeline({paused:true})
+    const slidesCount = el.querySelectorAll('.carousel-slide').length;
+
+    let counter = 0
+
+    function goToSlide(index: number) {
+        gsap.to(el.querySelector('.carousel-track'), {
+            xPercent: -100 * index,
+            duration: 0.8,
+            ease: 'power2.inOut',
+            overwrite: "auto"
+        })
+    }
+
+    function changecount(mode: boolean): void {
+        if (!mode) {
+            counter = (counter - 1 + slidesCount) % slidesCount;
+        }
+        else {
+            counter = (counter + 1) % slidesCount;
+        }
+
+        goToSlide(counter);
+    }
+    //return counter
+
+    return { changecount };
+
+
+}
 
 export function scrollSnapper(): void {
 

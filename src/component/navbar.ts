@@ -1,5 +1,6 @@
 import type { mixedMedia, navItem } from "../types/types";
 import { gsapGlobals, onLoadShiftingEvents } from "../utils/gsap-plugin";
+import { carouselComponents, renderCarousel } from "../utils/simple-carousel";
 
 export const HTMLContent: HTMLElement = document.querySelector('#content')!;
 
@@ -37,9 +38,13 @@ const premod: navItem[] = [
         content: ((): mixedMedia => {
 
             const main = HTMLContent.querySelector('section.projects-section') as HTMLElement;
+            const carousel = HTMLContent.querySelector('section.carousel-projects') as HTMLElement;
+            carousel.querySelector('.carousel-container .carousel')!.append(renderCarousel())
+            carouselComponents(carousel);
 
-            return [[main]]
-        })()
+            return [[main, carousel]]
+        })(),
+        extend: true
     },
     {
         name: 'contact',

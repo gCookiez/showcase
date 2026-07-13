@@ -27,6 +27,7 @@ html {
     --font-body-col: #fff;
     --background-color: #313131;
     --nav-bar-height: 50px;
+    --default-width: 1080px;
     box-sizing: border-box;
 }
 
@@ -196,15 +197,33 @@ html {
 .center-content {
     display: flex;
     flex-direction: column;
-    width: 1080px;
+    width: var(--default-width);
     height: 100%;
     margin-left: auto;
     margin-right: auto;
     justify-content: center;
     scroll-snap-align: start;
     scroll-snap-stop: always;
-
 }
+
+.center-content.extended {
+    width: 100%;
+}
+
+.center-content.extended>* .no-pad,
+.center-content.extended>* .pad-right,
+.center-content.extended>* .scroll-for-more,
+.center-content.extended>.experience-grid {
+    width: var(--default-width);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.center-content.extended>.unrestrict {
+    width: 100%;
+}
+
+
 
 .pad-right {
     padding-right: 240px;
@@ -280,3 +299,69 @@ h3.further {
     font-size: 24px;
 }
 
+/*carousel content*/
+
+.carousel-container {
+    position: relative;
+    margin: auto;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.4 ease-in-out;
+    width: 100%;
+}
+
+.carousel-slide {
+    min-width: 100%;
+    box-sizing: border-box;
+    justify-content: space-evenly;
+    align-items: center;
+    display: flex;
+    
+}
+
+.carousel-slide img {
+    width: 100%;
+    display: block;
+    height: 400px;
+    object-fit: cover;
+}
+
+.carousel__button--prev,
+.carousel__button--next {
+    position: absolute;
+    top: 50%;
+    width: 3rem;
+    height: 3rem;
+    background-color: rgb(0 0 0 / 24%);
+    transform: translateY(-50%);
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.carousel__button--prev {
+    left: 10px;
+}
+
+.carousel__button--next {
+    right: 10px;
+}
+
+.carousel__button--prev::after,
+.carousel__button--next::after {
+    content: " ";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    top: 50%;
+    left: 54%;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    transform: translate(-50%, -50%) rotate(135deg);
+}
+
+.carousel__button--next::after  {
+    transform: translate(-70%, -50%) rotate(315deg);
+}
