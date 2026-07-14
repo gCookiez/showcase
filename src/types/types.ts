@@ -1,7 +1,7 @@
 export type mixedMedia = (HTMLElement[] | string | string[] | DocumentFragment | HTMLElement)[] | string 
 export type funMixedMedia = (() => mixedMedia)
 
-type WebAddress = `http://${string}` | `https://${string}`;
+type WebAddress = `http://${string}` | `https://${string}` | `./${string}`;
 
 export type navItem = {
     name: string
@@ -26,4 +26,5 @@ export type slide = {
     link: WebAddress,
     id: string,
     pos?: number
+    desc?: string
 }

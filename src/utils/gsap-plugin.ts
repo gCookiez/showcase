@@ -1,7 +1,8 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
-gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+import { SplitText } from "gsap/SplitText";
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText);
 
 export const gsapGlobals: any = {}
 
@@ -114,9 +115,106 @@ const entriesObserver = new IntersectionObserver((entries: any): void => {
 }
 )
 
+// export function splitTextEffects(el: HTMLElement): void {
+
+// }
+
+export function gridEffects(el: HTMLElement): void {
+    // const originalMatrix: number[] =
+    //     [
+    //         0.512839, 0.031611, 0, 0.006579,
+    //         0.42834, 3.404698, 0, 0.003484,
+    //         0, 0, 1, 0,
+    //         146.814952, 43.728404, 0, 1
+    //     ]
+    // const normal: number[] =
+    //     [
+    //         1, 0, 0, 0,
+    //         0, 1, 0, 0,
+    //         0, 0, 1, 0,
+    //         0, 0, 0, 1
+    //     ]
+    const originalMatrix: number[] =
+        [
+            1.272, -0.026, -0.02, 0.157, 0, 0
+        ]
+    const normal: number[] =
+        [
+            1, 0, 0, 1, 0, 0
+        ]
+
+    gsapGlobals.splitWords = SplitText.create('.can-bring-content > * h1', {
+        type: 'words'
+    })
+
+    gsapGlobals.gridTrigger = gsap.timeline({
+        scrollTrigger: {
+            trigger: el,
+            scroller: gsapGlobals.smoother,
+            start: 'top-=200 bottom',
+            end: 'top-=200 center-=320',
+            toggleActions: "play resume pause reset"
+        }
+    })
+
+    gsapGlobals.gridTrigger.to(el.querySelectorAll('.square-grid-padding'), {
+        onEnter: () => {
+            const elements = el.querySelectorAll<HTMLElement>('.square-grid-padding');
+            elements.forEach((i) => {
+                i.style.setProperty('--matrix', `matrix(${originalMatrix.join(',')})`);
+                i.style.setProperty('opacity', '0');
+                i.style.setProperty('transform-origin', '-2px 1px 0px');
+            })
+        },
+        transform: `matrix(${normal.join(',')})`,
+        duration: 1,
+        stagger: 0.2,
+        opacity: 1,
+        ease: "expo.inOut"
+    }, '0').from(gsapGlobals.splitWords.words, {
+        y: -50,
+        stagger: 0.05,
+        duration: 0.8,
+        opacity: 0,
+        ease: 'bounce.out'
+    }, '0.1')
+}
+
+export function carouselEffects(el: HTMLElement): void {
+    gsapGlobals.scrollTrigger = ScrollTrigger.create({
+        trigger: el,
+        scroller: gsapGlobals.smoother,
+        start: 'top-=200 bottom+=600',
+        end: 'top-=200 center-=320',
+        scrub: true,
+        toggleActions: "play pause pause reset",
+        animation: gsap.fromTo(el.querySelector('.carousel-track'),
+            {
+                transform: `perspective(200px)
+                        rotateX(40deg)
+                        translateZ(-500px)
+                        translateY(-200px)
+                        scale(1)
+            `,
+            },
+            {
+                transform: `perspective(0px)
+                        rotateX(0deg)
+                        translateZ(0px)
+                        translateY(0px)
+                        scale(1)
+            `,
+                ease: "power4.inOut",
+                duration: 30
+            }
+        )
+    })
+}
+
 export function carouselLogic(el: HTMLElement): any {
     // const timeline = gsap.timeline({paused:true})
-    const slidesCount = el.querySelectorAll('.carousel-slide').length;
+    const slides = el.querySelectorAll('.carousel-slide')
+    const slidesCount = slides.length;
 
     let counter = 0
 
@@ -139,6 +237,21 @@ export function carouselLogic(el: HTMLElement): any {
 
         goToSlide(counter);
     }
+
+
+    slides.forEach((i) => {
+        const item = i.querySelector('.carousel-item-details')
+        i.addEventListener('mouseenter', function () {
+            gsap.to(item, {
+                opacity: 1,
+            })
+        })
+        i.addEventListener('mouseleave', function () {
+            gsap.to(item, {
+                opacity: 0
+            })
+        })
+    })
     //return counter
 
     return { changecount };
@@ -167,13 +280,13 @@ export function scrollSnapper(): void {
             start: "top+=50px top",
             end: "bottom-=50px top",
             onEnter: () => {
-                console.log(skipScroll)
                 scrollCheck(panel, "down");
             },
             onEnterBack: () => {
                 scrollCheck(panel, "up");
             }
         })
+
 
         entriesObserver.observe(i);
 

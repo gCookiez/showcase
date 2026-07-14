@@ -1,5 +1,5 @@
 import type { mixedMedia, navItem } from "../types/types";
-import { gsapGlobals, onLoadShiftingEvents } from "../utils/gsap-plugin";
+import { gridEffects, gsapGlobals, onLoadShiftingEvents } from "../utils/gsap-plugin";
 import { carouselComponents, renderCarousel } from "../utils/simple-carousel";
 
 export const HTMLContent: HTMLElement = document.querySelector('#content')!;
@@ -16,6 +16,8 @@ const premod: navItem[] = [
             const aboutDesc = HTMLContent.querySelector('section.about-desc') as HTMLElement;
             const canBringContent = HTMLContent.querySelector('section.can-bring-content') as HTMLElement;
             const expGrid = HTMLContent.querySelector('section.experience-grid') as HTMLElement;
+
+            gridEffects(expGrid);
 
             return [[main, scrollForMore], [aboutDesc], [canBringContent, expGrid]]
         })()
