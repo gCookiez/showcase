@@ -15,24 +15,10 @@ const premod: navItem[] = [
             const main = HTMLContent.querySelector('section.about') as HTMLElement;
             const scrollForMore = HTMLContent.querySelector('section.scroll-for-more') as HTMLElement;
             const aboutDesc = HTMLContent.querySelector('section.about-desc') as HTMLElement;
-            const canBringContent = HTMLContent.querySelector('section.can-bring-content') as HTMLElement;
-            const expGrid = HTMLContent.querySelector('section.experience-grid') as HTMLElement;
 
-            gridEffects(expGrid);
-
-            return [[main, scrollForMore], [aboutDesc], [canBringContent, expGrid]]
+            return [[main, scrollForMore], [aboutDesc],]
+            // return [[main, scrollForMore], [aboutDesc]]
         })()
-    },
-    {
-        name: 'exp',
-        href: 'experience',
-        display: 'Experience',
-        content: ((): mixedMedia => {
-
-            const main = HTMLContent.querySelector('section.full-experience') as HTMLElement;
-
-            return [[main]]
-        })(),
     },
     {
         name: 'proj',
@@ -48,6 +34,20 @@ const premod: navItem[] = [
             return [[main, carousel]]
         })(),
         extend: true
+    },
+    {
+        name: 'tools',
+        href: 'tools',
+        display: 'Skills & Tools',
+        content: ((): mixedMedia => {
+            const canBringContent = HTMLContent.querySelector('section.can-bring-content') as HTMLElement;
+            const expGrid = HTMLContent.querySelector('section.experience-grid') as HTMLElement;
+            const main = HTMLContent.querySelector('section.full-experience') as HTMLElement;
+
+            gridEffects(expGrid);
+
+            return [[canBringContent, expGrid], [main]]
+        })(),
     },
     {
         name: 'contact',
