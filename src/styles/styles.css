@@ -339,7 +339,7 @@ h3.further {
 }
 
 
-.carousel-item-details > h1 {
+.carousel-item-details>h1 {
     font-size: 128px;
 }
 
@@ -390,11 +390,98 @@ h3.further {
 }
 
 .slide-link:visited,
-.slide-link {
+.slide-link,
+.one-line > * a {
     color: inherit;
     text-decoration: none;
 }
 
-.slide-link:hover {
+.slide-link:hover,
+.one-line > * a:hover {
     text-decoration: underline dotted;
+}
+
+/*contact form*/
+
+.contact-flex {
+    display: flex;
+    gap: 10px;
+}
+
+.contact-flex > .no-pad:nth-child(1) {
+    flex: 0.45 0 0;
+}
+.contact-flex > .no-pad:nth-child(2) {
+    flex: 0.55 0 0;
+}
+
+.contact-form>* form {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-form>* form label,
+.contact-form>* form input,
+.contact-form>* form textarea {
+    font-family: var(--font-body);
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.contact-form>* form label {
+    color: #fff;
+    font-size: 24px;
+}
+
+.contact-form>* form input,
+.contact-form>* form textarea {
+    padding: 5px;
+    color: #000;
+}
+
+.contact-form>* form input::selection,
+.contact-form>* form textarea::selection {
+    color: #fff;
+    background-color: var(--background-color);
+}
+
+button.submit-button {
+    border: 4px solid #fff;
+    background-color: #00000000;
+    color: #FFF;
+    font-size: 24px;
+    font-family: var(--font-body);
+    padding: 5px;
+    box-sizing: border-box;
+}
+button.submit-button:hover {
+     background-color: #FFF;
+     color: #000;
+     cursor: pointer;
+}
+
+button.submit-button:active {
+    background-color: #AAA;
+    color: #000;
+}
+
+textarea#form-message {
+    min-height: 240px;
+    overflow-y: auto;
+    resize: none;
+}
+
+.one-line {
+    display: flex;
+    align-content: center;
+    gap: 10px;
+}
+
+.one-line > h3 {
+    margin-bottom: 0%;
+    align-self: center;
+}
+
+.one-line > i {
+    color: #fff;
 }

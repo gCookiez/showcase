@@ -1,4 +1,5 @@
 import type { mixedMedia, navItem } from "../types/types";
+import { emailValidation, resetEmailValidation } from "../utils/custom-content";
 import { gridEffects, gsapGlobals, onLoadShiftingEvents } from "../utils/gsap-plugin";
 import { carouselComponents, renderCarousel } from "../utils/simple-carousel";
 
@@ -55,17 +56,24 @@ const premod: navItem[] = [
         content: ((): mixedMedia => {
 
             const main = HTMLContent.querySelector('section.contact-section') as HTMLElement;
+            const form = HTMLContent.querySelector('section.contact-form') as HTMLElement;
 
-            return [[main]]
+
+            const email = form.querySelector('#form-email') as HTMLElement;
+            email?.addEventListener('invalid', emailValidation);
+            email?.addEventListener('input', resetEmailValidation);
+
+
+            return [[main, form]]
         })()
     },
 ]
 
 
 // adds auto height. works only if children are all .center-content
-export const navList : navItem[] = premod.map((val: navItem) => {
+export const navList: navItem[] = premod.map((val: navItem) => {
     if (typeof val.content === 'object' && Object.hasOwn(val.content, 'length')) {
-        val.height = String(parseInt(val.content.length as any) * 100 + 'vh') 
+        val.height = String(parseInt(val.content.length as any) * 100 + 'vh')
     }
     return val
 })
