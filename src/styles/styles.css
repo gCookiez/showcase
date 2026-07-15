@@ -158,6 +158,10 @@ html {
     flex-direction: column;
 }
 
+.square-item:hover {
+    cursor: pointer;
+}
+
 .square-logo-padding {
     width: 100%;
     height: 150px;
@@ -279,7 +283,6 @@ html {
 
 .skills-buttons li:hover {
     cursor: pointer;
-    scale: 1.2;
 }
 
 h3.further {

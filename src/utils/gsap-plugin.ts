@@ -115,25 +115,68 @@ const entriesObserver = new IntersectionObserver((entries: any): void => {
 }
 )
 
-// export function splitTextEffects(el: HTMLElement): void {
+export function splitButtonEffects(el: HTMLElement): void {
+    gsapGlobals.splitButtonEffect = gsap.timeline({
+        scrollTrigger: {
+            trigger: el,
+            scroller: gsapGlobals.smoother,
+            start: 'top-=200 bottom',
+            end: 'top-=200 center-=320',
+            toggleActions: "play resume pause reset"
+        }
+    })
 
-// }
+    gsapGlobals.splitWordsTwo = SplitText.create('.full-experience > * h1', {
+        type: 'words'
+    })
+
+    gsapGlobals.splitButtonEffect.to(el.querySelectorAll('.category, .skills-buttons > li'),
+        {
+            onEnter: () => {
+                const elements = el.querySelectorAll('.category, .skills-buttons > li');
+
+                elements.forEach((i: Element) => {
+                    const e = i as HTMLElement;
+                    e.style.transform = "translateY(-200px)"
+                    e.style.opacity = "0"
+                })
+            },
+            y: 0,
+            opacity: 1,
+            stagger: 0.05,
+            onanimationend: () => {
+                const elements = el.querySelectorAll('.skills-buttons > li');
+
+                elements.forEach((i: Element) => {
+                    const e = i as HTMLElement;
+
+                    const anim = gsap.to(e, {
+                        scale: 1.5,
+                        ease: 'power4.inOut',
+                        paused: true,
+                        duration: 0.2
+                    })
+
+                    e.addEventListener('mouseenter', function () {
+                        anim.play()
+                    })
+
+                    e.addEventListener('mouseleave', function () {
+                        anim.reverse();
+                    })
+                })
+            }
+        }
+    ).from(gsapGlobals.splitWordsTwo.words, {
+        y: -50,
+        stagger: 0.05,
+        duration: 0.8,
+        opacity: 0,
+        ease: 'bounce.out'
+    }, '0.1')
+}
 
 export function gridEffects(el: HTMLElement): void {
-    // const originalMatrix: number[] =
-    //     [
-    //         0.512839, 0.031611, 0, 0.006579,
-    //         0.42834, 3.404698, 0, 0.003484,
-    //         0, 0, 1, 0,
-    //         146.814952, 43.728404, 0, 1
-    //     ]
-    // const normal: number[] =
-    //     [
-    //         1, 0, 0, 0,
-    //         0, 1, 0, 0,
-    //         0, 0, 1, 0,
-    //         0, 0, 0, 1
-    //     ]
     const originalMatrix: number[] =
         [
             1.272, -0.026, -0.02, 0.157, 0, 0
@@ -170,7 +213,29 @@ export function gridEffects(el: HTMLElement): void {
         duration: 1,
         stagger: 0.2,
         opacity: 1,
-        ease: "expo.inOut"
+        ease: "expo.inOut",
+        onanimationend: () => {
+            const elements = el.querySelectorAll('.square-item');
+
+            elements.forEach((i: Element) => {
+                const e = i as HTMLElement;
+
+                const anim = gsap.to(e, {
+                    scale: 1.2,
+                    ease: 'power4.inOut',
+                    paused: true,
+                    duration: 0.2
+                })
+
+                e.addEventListener('mouseenter', function () {
+                    anim.play()
+                })
+
+                e.addEventListener('mouseleave', function () {
+                    anim.reverse();
+                })
+            })
+        }
     }, '0').from(gsapGlobals.splitWords.words, {
         y: -50,
         stagger: 0.05,
@@ -187,6 +252,9 @@ export function carouselEffects(el: HTMLElement): void {
         start: 'top-=200 bottom+=600',
         end: 'top-=200 center-=320',
         scrub: true,
+        onLeave: (self: any) => {
+            gsap.set(self.animation.targets(), { clearProps: "transform" });
+        },
         toggleActions: "play pause pause reset",
         animation: gsap.fromTo(el.querySelector('.carousel-track'),
             {

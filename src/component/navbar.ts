@@ -1,6 +1,6 @@
 import type { mixedMedia, navItem } from "../types/types";
 import { emailValidation, resetEmailValidation } from "../utils/custom-content";
-import { gridEffects, gsapGlobals, onLoadShiftingEvents } from "../utils/gsap-plugin";
+import { gridEffects, gsapGlobals, onLoadShiftingEvents, splitButtonEffects } from "../utils/gsap-plugin";
 import { carouselComponents, renderCarousel } from "../utils/simple-carousel";
 
 export const HTMLContent: HTMLElement = document.querySelector('#content')!;
@@ -45,6 +45,7 @@ const premod: navItem[] = [
             const main = HTMLContent.querySelector('section.full-experience') as HTMLElement;
 
             gridEffects(expGrid);
+            splitButtonEffects(main);
 
             return [[canBringContent, expGrid], [main]]
         })(),
