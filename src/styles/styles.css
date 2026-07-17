@@ -306,9 +306,10 @@ h3.further {
 
 /*carousel content*/
 
-/* .carousel-projects {
-    transform: perspective(400px) rotateX(40deg) scale(1);
-} */
+.carousel-projects.unrestrict {
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
 
 .carousel-container {
     position: relative;

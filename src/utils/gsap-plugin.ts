@@ -47,8 +47,6 @@ export function initGSAP(): void {
             }, '0'
         )
 
-
-
     return;
 }
 
@@ -249,31 +247,31 @@ export function carouselEffects(el: HTMLElement): void {
     gsapGlobals.scrollTrigger = ScrollTrigger.create({
         trigger: el,
         scroller: gsapGlobals.smoother,
-        start: 'top-=200 bottom+=600',
-        end: 'top-=200 center-=320',
+        start: '-25% 60%',
+        end: '-25% 25%',
         scrub: true,
+        markers: true,
+        fastScrollEnd: true,
         onLeave: (self: any) => {
             gsap.set(self.animation.targets(), { clearProps: "transform" });
         },
-        toggleActions: "play pause pause reset",
+        toggleActions: "play none complete reverse",
         animation: gsap.fromTo(el.querySelector('.carousel-track'),
             {
-                transform: `perspective(200px)
-                        rotateX(40deg)
-                        translateZ(-500px)
-                        translateY(-200px)
-                        scale(1)
-            `,
+                transform: `
+                        perspective(600px)
+                        rotateX(90deg)
+                        translateY(-500px)
+            `
             },
             {
-                transform: `perspective(0px)
+                transform: `
+                        perspective(600px)
                         rotateX(0deg)
-                        translateZ(0px)
                         translateY(0px)
-                        scale(1)
             `,
-                ease: "power4.inOut",
-                duration: 30
+                ease: "sine.out",
+                duration: 0.5
             }
         )
     })
