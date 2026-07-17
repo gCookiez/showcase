@@ -250,7 +250,7 @@ export function carouselEffects(el: HTMLElement): void {
         start: '-25% 60%',
         end: '-25% 25%',
         scrub: true,
-        markers: true,
+        // markers: true,
         fastScrollEnd: true,
         onLeave: (self: any) => {
             gsap.set(self.animation.targets(), { clearProps: "transform" });
