@@ -93,7 +93,7 @@ html {
 }
 
 #main-body .hero-container {
-    height: var(--height);
+    height: calc(var(--height) * 100vh);
     scroll-margin-top: calc(var(--nav-bar-height));
     display: flex;
     flex-direction: column;

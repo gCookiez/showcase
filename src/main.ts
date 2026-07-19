@@ -1,6 +1,8 @@
 import { renderContentBody } from "./component/content-body";
 import { renderNavBar } from "./component/navbar";
 import { deactivateSkipScroll, gsapGlobals, initGSAP, onLoadShiftingEvents } from "./utils/gsap-plugin";
+import './styles/styles.css';
+import './styles/slim-form.css';
 
 
 window.addEventListener('DOMContentLoaded', () => {

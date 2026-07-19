@@ -12,7 +12,60 @@ let currentView: null | HTMLElement = null;
 
 export function initGSAP(): void {
     scrollSnapper();
+    arrowKeysFunctionality();
+    mediaMatch();
+    //assemble all animations to media match for media matching
+    vrLine();
+    return;
+}
 
+export function mediaMatch(): void {
+    const media = gsap.matchMedia()
+
+    media.add('screen and (orientation: portrait) and (min-width: 1024px)', (context: any) => {
+        gsapGlobals['sections'].forEach((i: any, panel: any) => {
+
+
+            let lastStart: string = "top+=200 top";
+            if (panel === gsapGlobals.sections.length - 1) {
+                lastStart = `top+=200 top`;
+            }
+
+            ScrollTrigger.create({
+                trigger: i,
+                start: lastStart,
+                end: "center+=550 top",
+                onEnter: () => {
+                    scrollCheck(panel, "down");
+                },
+                onEnterBack: () => {
+                    scrollCheck(panel, "up");
+                }
+            })
+
+
+            entriesObserver.observe(i);
+
+        })
+
+        gsapGlobals.scrollTrigger.refresh();
+
+
+        return () => {
+            
+
+            // gsapGlobals.scrollTrigger.invalidate();
+            console.log(gsapGlobals.scrollTrigger)
+            gsapGlobals.scrollTrigger.refresh();
+
+
+        }
+
+
+    })
+}
+
+export function vrLine(): void {
     gsapGlobals.vrLine = gsap.timeline({});
 
     gsapGlobals.vrLine
@@ -46,8 +99,6 @@ export function initGSAP(): void {
                 yoyo: true
             }, '0'
         )
-
-    return;
 }
 
 export function goToSection(i: number, skip?: boolean): void {
@@ -113,6 +164,69 @@ const entriesObserver = new IntersectionObserver((entries: any): void => {
 }
 )
 
+
+
+
+export function scrollSnapper(): void {
+
+
+    gsapGlobals['sections'] = gsap.utils.toArray('.center-content');
+
+    gsapGlobals['smoother'] = ScrollSmoother.create({
+        wrapper: '#main-scroll-wrapper',
+        content: '#main-body',
+        smooth: 1,
+        effects: true,
+        smoothTouch: 1
+    })
+
+
+
+    gsapGlobals['sections'].forEach((i: any, panel: any) => {
+
+        let lastStart: string = "top+=200 top";
+        if (panel === gsapGlobals.sections.length - 1) {
+            lastStart = `top+=200 top`;
+        }
+
+        ScrollTrigger.create({
+            trigger: i,
+            start: lastStart,
+            end: "center+=200 top",
+            // markers: true,
+            onEnter: () => {
+                scrollCheck(panel, "down");
+            },
+            onEnterBack: () => {
+                scrollCheck(panel, "up");
+            }
+        })
+
+
+        entriesObserver.observe(i);
+
+    })
+
+
+
+
+
+
+    return;
+}
+
+export function hoverAnim(e: HTMLElement): GSAPAnimation {
+    const anim = gsap.to(e, {
+        scale: 1.5,
+        ease: 'power4.inOut',
+        paused: true,
+        zIndex: 1000,
+        duration: 0.2
+    })
+
+    return anim;
+}
+
 export function splitButtonEffects(el: HTMLElement): void {
     gsapGlobals.splitButtonEffect = gsap.timeline({
         scrollTrigger: {
@@ -147,13 +261,8 @@ export function splitButtonEffects(el: HTMLElement): void {
 
                 elements.forEach((i: Element) => {
                     const e = i as HTMLElement;
+                    const anim = hoverAnim(e);
 
-                    const anim = gsap.to(e, {
-                        scale: 1.5,
-                        ease: 'power4.inOut',
-                        paused: true,
-                        duration: 0.2
-                    })
 
                     e.addEventListener('mouseenter', function () {
                         anim.play()
@@ -177,7 +286,8 @@ export function splitButtonEffects(el: HTMLElement): void {
 export function gridEffects(el: HTMLElement): void {
     const originalMatrix: number[] =
         [
-            1.272, -0.026, -0.02, 0.157, 0, 0
+            // 1.272, -0.026, -0.02, 0.157, 0, 0
+            1, -0.026, 0, 0, 0, 0
         ]
     const normal: number[] =
         [
@@ -221,6 +331,10 @@ export function gridEffects(el: HTMLElement): void {
                 const anim = gsap.to(e, {
                     scale: 1.2,
                     ease: 'power4.inOut',
+                    marginTop: "50",
+                    marginBottom: "50",
+                    marginLeft: "50",
+                    marginRight: "50",
                     paused: true,
                     duration: 0.2
                 })
@@ -244,13 +358,15 @@ export function gridEffects(el: HTMLElement): void {
 }
 
 export function carouselEffects(el: HTMLElement): void {
+
     gsapGlobals.scrollTrigger = ScrollTrigger.create({
         trigger: el,
         scroller: gsapGlobals.smoother,
-        start: '-25% 60%',
-        end: '-25% 25%',
+        start: () => {return '-25% center+=50%'},
+        end: () => {return '-25% center'},
         scrub: true,
-        // markers: true,
+        invalidateOnRefresh: true,
+        markers: true,
         fastScrollEnd: true,
         onLeave: (self: any) => {
             gsap.set(self.animation.targets(), { clearProps: "transform" });
@@ -275,6 +391,8 @@ export function carouselEffects(el: HTMLElement): void {
             }
         )
     })
+
+    console.log(gsapGlobals.scrollTrigger)
 }
 
 export function carouselLogic(el: HTMLElement): any {
@@ -325,39 +443,7 @@ export function carouselLogic(el: HTMLElement): any {
 
 }
 
-export function scrollSnapper(): void {
-
-
-    gsapGlobals['sections'] = gsap.utils.toArray('.center-content');
-
-    gsapGlobals['smoother'] = ScrollSmoother.create({
-        wrapper: '#main-scroll-wrapper',
-        content: '#main-body',
-        smooth: 0.5,
-        effects: true,
-        smoothTouch: 0.1
-    })
-
-
-
-    gsapGlobals['sections'].forEach((i: any, panel: any) => {
-        ScrollTrigger.create({
-            trigger: i,
-            start: "top+=50px top",
-            end: "bottom-=50px top",
-            onEnter: () => {
-                scrollCheck(panel, "down");
-            },
-            onEnterBack: () => {
-                scrollCheck(panel, "up");
-            }
-        })
-
-
-        entriesObserver.observe(i);
-
-    })
-
+export function arrowKeysFunctionality() {
     window.addEventListener('keydown', (e) => {
         switch (e.key) {
             case 'ArrowUp':
@@ -371,11 +457,7 @@ export function scrollSnapper(): void {
         }
         e.preventDefault();
     })
-
-
-
-
-    return;
 }
+
 
 

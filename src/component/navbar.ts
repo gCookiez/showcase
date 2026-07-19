@@ -74,7 +74,7 @@ const premod: navItem[] = [
 // adds auto height. works only if children are all .center-content
 export const navList: navItem[] = premod.map((val: navItem) => {
     if (typeof val.content === 'object' && Object.hasOwn(val.content, 'length')) {
-        val.height = String(parseInt(val.content.length as any) * 100 + 'vh')
+        val.height = String(parseInt(val.content.length as any))
     }
     return val
 })

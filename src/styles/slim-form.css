@@ -1,0 +1,28 @@
+@media screen and (orientation: portrait) and (max-width: 1080px) {
+    * {
+        --default-width: 800px !important;
+    }
+
+    #main-body .hero-container {
+        height: calc(var(--height) * 100vh);
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+
+
+    .experience-grid {
+        grid-template-columns: none;
+        grid-template-rows: 1fr 1fr 1fr;
+        gap: 20px;
+        height: 1000px;
+    }
+
+    .skills-buttons {
+        width: 100%;
+    }
+
+    .skills-buttons li {
+        width: 100%;
+    }
+
+}

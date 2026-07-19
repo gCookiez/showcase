@@ -3,19 +3,19 @@ import { carouselEffects, carouselLogic } from "./gsap-plugin";
 // import { randomizer } from "./randomizer";
 
 export const slides: Record<string, slide> = {
-    'HungryDev': {
-        alt: "HungryDev",
-        img: `./img01.png`,
-        link: "https://crispypata.neocities.org/",
-        id: 'Hungry Dev Blog',
-        desc: 'A personal blog for anything that happens about the dev.'
-    },
     'Mock Terminal': {
         alt: "MockTerminal",
         img: `./img02.png`,
         link: "https://gcookiez.github.io/main-portfolio/",
         id: 'Mock Terminal',
         desc: "A website that resembles a virtual terminal seen in computers. "
+    },
+    'HungryDev': {
+        alt: "HungryDev",
+        img: `./img01.png`,
+        link: "https://crispypata.neocities.org/",
+        id: 'Hungry Dev Blog',
+        desc: 'A personal blog for anything that happens about the dev.'
     },
     'GUI Test': {
         alt: "Gui Test",
