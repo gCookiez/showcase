@@ -22,7 +22,7 @@ export function initGSAP(): void {
 export function mediaMatch(): void {
     const media = gsap.matchMedia()
 
-    media.add('screen and (orientation: portrait) and (min-width: 1024px)', (context: any) => {
+    media.add('screen and (orientation: portrait) and (min-width: 1024px)', () => {
         gsapGlobals['sections'].forEach((i: any, panel: any) => {
 
 
@@ -54,7 +54,6 @@ export function mediaMatch(): void {
         return () => {
             
 
-            // gsapGlobals.scrollTrigger.invalidate();
             console.log(gsapGlobals.scrollTrigger)
             gsapGlobals.scrollTrigger.refresh();
 
@@ -366,7 +365,6 @@ export function carouselEffects(el: HTMLElement): void {
         end: () => {return '-25% center'},
         scrub: true,
         invalidateOnRefresh: true,
-        markers: true,
         fastScrollEnd: true,
         onLeave: (self: any) => {
             gsap.set(self.animation.targets(), { clearProps: "transform" });
